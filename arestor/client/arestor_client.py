@@ -33,13 +33,11 @@ class ArestorClient(base_client.ResourceClient):
     @property
     def client_id(self):
         """Return the client id."""
-        return requests.compat.urljoin(
-            self._base_url, self._client_id, self._namespace)
+        return self._base_url+"/"+ self._client_id+"/"+ self._namespace
 
     def get_url(self):
         """Return the url for this client."""
-        return requests.compat.urljoin(requests.compat.urljoin(
-            self._base_url, "v1"), self._client_id, self._namespace))
+        return self._base_url+ "/v1/"+ self._client_id+"/"+ self._namespace
 
     def set_namespace(self, namespace):
         """Set a specific namespace."""
