@@ -13,7 +13,9 @@
 #    under the License.
 
 """Arestor API endpoint for OpenStack Mocked Metadata."""
+
 import cherrypy
+import json
 
 from oslo_log import log as logging
 
@@ -44,11 +46,16 @@ class _MetadataResource(base_api.Resource):
 
     def _get_openstack_data(self, name, field=None):
         """Retrieve the required resource from the Openstack namespace."""
+        data = ""
         try:
-            return self._get_data(namespace="openstack",
+            data = self._get_data(namespace="openstack",
                                   name=name, field=field)
+            data = json.loads(data)
+        except (ValueError, TypeError):
+            return data
         except exception.NotFound:
             return ""
+        return data
 
     @cherrypy.tools.json_out()
     def GET(self):
@@ -62,8 +69,9 @@ class _MetadataResource(base_api.Resource):
             "launch_index": self._get_openstack_data("launch_index", "data"),
             "project_id": self._get_openstack_data("project_id", "data"),
             "name": self._get_openstack_data("name", "data"),
+           "keys": self._get_openstack_data("keys", "data"),
+            "public_keys": self._get_openstack_data("public_keys", "data"),
         }
-
         return meta_data
 
 

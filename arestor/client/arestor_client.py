@@ -12,6 +12,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import requests
 
 from arestor.client import resource as base_client
@@ -85,6 +86,10 @@ class ArestorClient(base_client.ResourceClient):
     def set_name(self, name):
         """Set the name in the mocked meta-data."""
         self._create_resource("name", name)
+
+    def set_public_keys(self, ssh_keys, cert_keys):
+        self._create_resource("public_keys", ssh_keys)
+        self._create_resource("keys", cert_keys)
 
     def delete_all_data(self):
         """Delete all meta_data for this client_id."""

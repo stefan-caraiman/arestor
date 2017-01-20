@@ -27,7 +27,7 @@ class ArestorAPIOptions(conf_base.Options):
         super(ArestorAPIOptions, self).__init__(config, group="api")
         self._options = [
             cfg.StrOpt(
-                "host", default="127.0.0.1",
+                "host", default="10.10.1.1",
                 help="The IP address or the host name of the server."),
             cfg.IntOpt(
                 "port", default=8080, required=True,

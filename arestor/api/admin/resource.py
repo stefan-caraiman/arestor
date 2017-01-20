@@ -14,8 +14,8 @@
 
 
 """Arestor API endpoint for resource management."""
-
 import cherrypy
+import json
 
 from arestor.api import base as base_api
 from arestor.common import tools as arestor_tools
@@ -87,8 +87,12 @@ class ResourceEndpoint(base_api.Resource):
 
         response["content"] = kwargs
         for name, value in kwargs.items():
-            connection.hset(key, name, value)
-
+            try:
+                value1 = json.loads(value)
+                value1['data'] = json.loads(value1['data'])
+                connection.hset(key, name, value1)
+            except:
+                connection.hset(key, name, value)
         return response
 
     @cherrypy.tools.user_required()
